@@ -1,14 +1,8 @@
 package com.lefrantguillaume;
 
 
-import javafx.animation.Animation;
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
-
-import java.io.IOException;
-import java.sql.Time;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Guillaume on 09/02/2015.
@@ -16,7 +10,11 @@ import java.util.TimerTask;
 public class Game extends BasicGame {
 
     private final Boolean running = true;
-    private CrossyMap map;
+    protected CrossyMap map;
+    protected CrossyChar character;
+    protected Input keymap;
+    private Integer moving;
+    private static final Integer TOMOVE = 1;
 
     public Game(String title) {
         super(title);
@@ -26,21 +24,35 @@ public class Game extends BasicGame {
     public void init(GameContainer gameContainer) throws SlickException {
 
         this.map = new CrossyMap();
-        Input a = gameContainer.getInput();
-        if (a.isKeyDown(Input.KEY_UP)) {
-            this.map.generateNewLine();
-        }
+        this.character = new CrossyChar();
+        this.keymap = gameContainer.getInput();
+        this.moving = 0;
     }
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
-
-        this.map.update(i);
+        if (this.keymap.isKeyPressed(Input.KEY_ESCAPE)) {
+            gameContainer.exit();
+        }
+        if (this.keymap.isKeyPressed(Input.KEY_DOWN) && this.moving == 0) {
+            this.map.generateNewLine();
+            this.character.setWalk(true);
+            this.moving = 90;
+        }
+        if (this.moving != 0) {
+            if (this.moving.equals(TOMOVE)) {
+                this.character.setWalk(false);
+                this.map.removeFirst();
+            }
+            this.map.move(TOMOVE);
+            this.moving -= TOMOVE;
+        }
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
 
         this.map.show();
+        this.character.aff();
     }
 }

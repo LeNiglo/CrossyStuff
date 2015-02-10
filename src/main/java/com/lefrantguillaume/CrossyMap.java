@@ -1,5 +1,7 @@
 package com.lefrantguillaume;
 
+import org.jbox2d.common.Vec2;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,33 +18,32 @@ public class CrossyMap {
     public CrossyMap() {
 
         // First Generation
-        this.lines = new ArrayList<CrossyLine>(10);
-        for (int i = 0; i < 10; i++) {
-            lines.add(new CrossyLine(this.rand));
+        this.lines = new ArrayList<CrossyLine>(12);
+        for (int i = 0; i < 12; i++) {
+            lines.add(new CrossyLine(this.rand, i*90));
         }
-
-        System.out.println("First Generation over, there is "+lines.size()+ " lines.");
     }
 
     public Boolean generateNewLine() {
 
-        this.lines.add(new CrossyLine(this.rand));
-        this.lines.remove(0);
-
-        System.out.println("New Generation done, there is now "+lines.size()+ " lines.");
-
+        this.lines.add(new CrossyLine(this.rand, this.lines.get(this.lines.size() - 1).getY() + 90));
         return true;
     }
 
     public void show() {
         for (int i = 0; i < this.lines.size(); i++) {
-            this.lines.get(i).affLine(i);
+            this.lines.get(i).affLine();
         }
     }
 
-    public void update(final int delta) {
+    public void move(Integer toMove) {
         for (int i = 0; i < this.lines.size(); i++) {
-            this.lines.get(i).update(delta);
+            this.lines.get(i).moveY(toMove);
         }
     }
+
+    public void removeFirst() {
+        this.lines.remove(0);
+    }
+
 }
