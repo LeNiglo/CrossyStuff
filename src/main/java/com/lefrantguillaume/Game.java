@@ -26,6 +26,7 @@ public class Game extends BasicGame {
         this.map = new CrossyMap();
         this.character = new CrossyChar();
         this.keymap = gameContainer.getInput();
+        this.keymap.enableKeyRepeat();
         this.moving = 0;
     }
 
@@ -34,7 +35,7 @@ public class Game extends BasicGame {
         if (this.keymap.isKeyPressed(Input.KEY_ESCAPE)) {
             gameContainer.exit();
         }
-        if (this.keymap.isKeyPressed(Input.KEY_DOWN) && this.moving == 0) {
+        if (this.keymap.isKeyDown(Input.KEY_DOWN) && this.moving == 0) {
             this.map.generateNewLine();
             this.character.setWalk(true);
             this.moving = 90;

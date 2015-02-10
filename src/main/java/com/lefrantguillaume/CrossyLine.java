@@ -1,6 +1,5 @@
 package com.lefrantguillaume;
 
-import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -16,8 +15,8 @@ public class CrossyLine {
 
     public enum e_type {
         GROUND,
-        ROAD,
-        WATER
+        ROAD/*,
+        WATER*/
     }
 
     private Integer _speed;
@@ -42,7 +41,7 @@ public class CrossyLine {
 
     public void affLine() {
 
-        //System.out.println("[CrossyLine] Type is : " + this._type.name() + " and speed is : " + this._speed + ".");
+        System.out.println("[CrossyLine] Type is : " + this._type.name() + " and speed is : " + this._speed + ".");
         this.background.draw(0, this.y, 1600, 900 / 10);
     }
 
