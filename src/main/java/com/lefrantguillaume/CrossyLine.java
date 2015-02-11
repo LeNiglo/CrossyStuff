@@ -20,15 +20,28 @@ public class CrossyLine {
     }
 
     private Integer _speed;
+    private Boolean _reverse;
     private e_type _type;
     private Animation background;
-    private Integer y;
+    private Integer _y;
     protected List<CrossyItem> items;
+    protected Random rand;
+    private Integer nextItem;
+    private Integer counter;
+    private Integer FREQ;
+    private Integer SPEED;
 
-    public CrossyLine(Random random, Integer posY) {
-        this.y = posY;
-        this._speed = random.nextInt((100 - 1) + 1);
-        this._type = e_type.values()[random.nextInt(e_type.values().length)];
+    public CrossyLine(Random random, Integer posY, Integer freq, Integer speed) {
+        this._y = posY;
+        this.rand = random;
+        this.FREQ = freq;
+        this.SPEED = speed;
+        this.counter = 0;
+        this._reverse = this.rand.nextBoolean();
+        this.nextItem = this.rand.nextInt(this.FREQ) + this.FREQ;
+        this._speed = this.rand.nextInt((100 - 1) + this.SPEED);
+        this._type = e_type.values()[this.rand.nextInt(e_type.values().length)];
+        this.items = new ArrayList<CrossyItem>();
         try {
             Image[] back = {new Image("/media/img/grounds/" + this._type.name() + ".png"), new Image("/media/img/grounds/" + this._type.name() + ".png")};
             int[] duration = {200, 200};
@@ -36,19 +49,29 @@ public class CrossyLine {
         } catch (SlickException e) {
             e.printStackTrace();
         }
-
     }
 
-    public void affLine() {
-
-        System.out.println("[CrossyLine] Type is : " + this._type.name() + " and speed is : " + this._speed + ".");
-        this.background.draw(0, this.y, 1600, 900 / 10);
+    public void aff() {
+        this.background.draw(0, this._y, 1600, 900 / 10);
+        if (this._type == e_type.ROAD) {
+            if (this.counter.equals(this.nextItem)) {
+                this.items.add(new CrossyItem(this.rand, this._type, this._speed, this._reverse));
+                this.counter = 0;
+                this.nextItem = this.rand.nextInt(this.FREQ) + this.FREQ;
+            }
+            for (int i = 0; i < this.items.size(); i++) {
+                this.items.get(i).aff(this._y);
+            }
+        }
+        this.counter++;
     }
 
     public Integer getY() {
-        return this.y;
+        return this._y;
     }
+
     public void moveY(Integer toMove) {
-        this.y -= toMove;
+        this._y -= toMove;
     }
+
 }

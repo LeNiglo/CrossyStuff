@@ -4,8 +4,6 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import java.util.Random;
-
 /**
  * Created by Guillaume on 10/02/2015.
  */

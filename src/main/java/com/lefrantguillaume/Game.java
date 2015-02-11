@@ -1,7 +1,6 @@
 package com.lefrantguillaume;
 
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 
 /**
@@ -14,7 +13,7 @@ public class Game extends BasicGame {
     protected CrossyChar character;
     protected Input keymap;
     private Integer moving;
-    private static final Integer TOMOVE = 1;
+    private static final Integer TOMOVE = 3;
 
     public Game(String title) {
         super(title);
@@ -27,6 +26,7 @@ public class Game extends BasicGame {
         this.character = new CrossyChar();
         this.keymap = gameContainer.getInput();
         this.keymap.enableKeyRepeat();
+        gameContainer.setVSync(true);
         this.moving = 0;
     }
 
