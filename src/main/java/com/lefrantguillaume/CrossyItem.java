@@ -20,11 +20,10 @@ public class CrossyItem {
     CrossyItem(Random random, CrossyLine.e_type type, Integer speed, Boolean reverse) {
         this._speed = speed;
         this._reverse = reverse;
-        System.out.println("New Item");
         if (this._reverse) {
-            this._x = -200;
+            this._x = -100;
         } else {
-            this._x = 1800;
+            this._x = 1700;
         }
         if (type == CrossyLine.e_type.ROAD) {
             try {
@@ -43,10 +42,10 @@ public class CrossyItem {
     public void aff(Integer y) {
         if (this._reverse) {
             this.item.getCurrentFrame().getFlippedCopy(true, false).draw(this._x, y, 90, 90);
-            this._x += this._speed / 30;
+            this._x += this._speed / 10;
         } else {
             this.item.getCurrentFrame().getFlippedCopy(false, false).draw(this._x, y, 90, 90);
-            this._x -= this._speed / 30;
+            this._x -= this._speed / 10;
         }
     }
 }

@@ -30,6 +30,7 @@ public class CrossyLine {
     private Integer counter;
     private Integer FREQ;
     private Integer SPEED;
+    private final static Integer MIN_FREQ = 50;
 
     public CrossyLine(Random random, Integer posY, Integer freq, Integer speed) {
         this._y = posY;
@@ -38,8 +39,8 @@ public class CrossyLine {
         this.SPEED = speed;
         this.counter = 0;
         this._reverse = this.rand.nextBoolean();
-        this.nextItem = this.rand.nextInt(this.FREQ) + this.FREQ;
-        this._speed = this.rand.nextInt((100 - 1) + this.SPEED);
+        this.nextItem = this.rand.nextInt(this.FREQ) + this.MIN_FREQ;
+        this._speed = this.rand.nextInt(this.SPEED) + this.SPEED;
         this._type = e_type.values()[this.rand.nextInt(e_type.values().length)];
         this.items = new ArrayList<CrossyItem>();
         try {
@@ -54,10 +55,10 @@ public class CrossyLine {
     public void aff() {
         this.background.draw(0, this._y, 1600, 900 / 10);
         if (this._type == e_type.ROAD) {
-            if (this.counter.equals(this.nextItem)) {
+            if (this.counter >= this.nextItem) {
                 this.items.add(new CrossyItem(this.rand, this._type, this._speed, this._reverse));
                 this.counter = 0;
-                this.nextItem = this.rand.nextInt(this.FREQ) + this.FREQ;
+                this.nextItem = this.rand.nextInt(this.FREQ) + this.MIN_FREQ;
             }
             for (int i = 0; i < this.items.size(); i++) {
                 this.items.get(i).aff(this._y);

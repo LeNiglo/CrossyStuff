@@ -13,11 +13,12 @@ public class CrossyMap {
     private final Random rand = new Random();
     private static Integer FREQ = 500;
     private static Integer SPEED = 20;
+    private Integer count;
 
     public CrossyMap() {
 
-        // First Generation
         this.lines = new ArrayList<CrossyLine>(12);
+        this.count = 0;
         for (int i = 0; i < 12; i++) {
             lines.add(new CrossyLine(this.rand, i*90, FREQ, SPEED));
         }
@@ -43,15 +44,17 @@ public class CrossyMap {
     }
 
     public void harder() {
-        if (this.FREQ > 200)
-            this.FREQ--;
-        if (this.SPEED < 100)
+        if (this.FREQ > 150)
+            this.FREQ -= 3;
+        if (this.SPEED < 1250)
             this.SPEED++;
-        System.out.println("Harder : F="+this.FREQ+" S="+this.SPEED);
+        this.count++;
     }
 
     public void removeFirst() {
         this.lines.remove(0);
     }
+
+    public Integer getCount() { return this.count; }
 
 }
