@@ -1,4 +1,4 @@
-package com.lefrantguillaume;
+package com.lefrantguillaume.game;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
@@ -6,15 +6,12 @@ import org.newdawn.slick.SlickException;
 
 import java.util.Random;
 
-/**
- * Created by Guillaume on 10/02/2015.
- */
 public class CrossyItem {
 
     private static final Integer NBCARS = 4;
-    private Animation item;
     protected Integer _speed;
     protected Integer _x;
+    private Animation item;
     private Boolean _reverse;
 
     CrossyItem(Random random, CrossyLine.e_type type, Integer speed, Boolean reverse) {
@@ -34,8 +31,6 @@ public class CrossyItem {
                 e.printStackTrace();
             }
 
-        } else if (type == CrossyLine.e_type.GROUND) {
-
         }
     }
 
@@ -47,5 +42,9 @@ public class CrossyItem {
             this.item.getCurrentFrame().getFlippedCopy(false, false).draw(this._x, y, 90, 90);
             this._x -= this._speed / 10;
         }
+    }
+
+    public Integer getX() {
+        return this._x;
     }
 }

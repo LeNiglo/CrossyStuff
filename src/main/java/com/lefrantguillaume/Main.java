@@ -1,5 +1,6 @@
 package com.lefrantguillaume;
 
+import com.lefrantguillaume.game.Game;
 import org.newdawn.slick.AppGameContainer;
 
 public class Main {

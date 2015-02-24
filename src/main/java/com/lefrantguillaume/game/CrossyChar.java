@@ -1,19 +1,18 @@
-package com.lefrantguillaume;
+package com.lefrantguillaume.game;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-/**
- * Created by Guillaume on 10/02/2015.
- */
 public class CrossyChar {
     private Animation anim;
     private Animation move;
     private Boolean walking;
+    private Integer score;
 
     public CrossyChar() {
         try {
+            this.score = 0;
             this.walking = false;
             Image[] perso = {new Image("/media/img/character/perso1.png"), new Image("/media/img/character/perso2.png"), new Image("/media/img/character/perso3.png")};
             Image[] moves = {new Image("/media/img/character/move1.png"), new Image("/media/img/character/move2.png"), new Image("/media/img/character/move3.png"), new Image("/media/img/character/move4.png")};
@@ -28,13 +27,25 @@ public class CrossyChar {
     }
 
     public void aff() {
-        if (walking == true)
-            this.move.draw((1600 - 900 / 10) / 2, 900 / 10, 900 / 10, 900 / 10);
+        if (walking)
+            this.move.draw((1600 - 90) / 2, 90, 90, 90);
         else
-            this.anim.draw((1600 - 900 / 10) / 2, 900 / 10, 900 / 10, 900 / 10);
+            this.anim.draw((1600 - 90) / 2, 90, 90, 90);
     }
 
     public void setWalk(Boolean state) {
         this.walking = state;
+        if (!state) {
+            ++this.score;
+        }
+    }
+
+    public Integer getScore() {
+        return this.score;
+    }
+
+    public boolean checkColide(int x1, int x2) {
+        int center = ((1600 - 30) / 2 + (1600 + 30) / 2) / 2;
+        return center >= x1 && center <= x2;
     }
 }
