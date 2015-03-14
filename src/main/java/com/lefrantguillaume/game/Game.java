@@ -44,6 +44,7 @@ public class Game extends BasicGame {
         this.keymap.enableKeyRepeat();
         gameContainer.setVSync(true);
         this.moving = 0;
+        this.loadHighScore();
     }
 
     @Override
@@ -76,11 +77,7 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         this.map.show();
         graphics.drawString("Score: " + this.character.getScore(), 10, 30);
-        if (this.character.getScore() > this.getHighScore()) {
-            graphics.drawString("Best: " + this.character.getScore(), 10, 50);
-        } else {
-            graphics.drawString("Best: " + this.getHighScore(), 10, 50);
-        }
+        graphics.drawString("Best: " + (this.character.getScore() > this.getHighScore() ? this.character.getScore() : this.getHighScore()), 10, 50);
         this.character.aff();
     }
 
@@ -95,16 +92,21 @@ public class Game extends BasicGame {
         String homePath = System.getProperty("user.home");
         String delim = System.getProperty("file.separator");
 
-        Path path = Paths.get(homePath + delim + GAME_DIR + delim + SAVE_FILE);
         try {
+            Path path = Paths.get(homePath + delim + GAME_DIR + delim + SAVE_FILE);
             List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
             for (String line : lines) {
-                if (line.substring(0, 9).equals("HIGHSCORE=")) {
-                    this.highscore = Integer.parseInt(line.substring(9));
-                    break;
+                if (line.substring(0, 9).equals("HIGHSCORE")) {
+                    try {
+                        this.highscore = Integer.parseInt(line.substring(10));
+                        break;
+                    } catch (Exception ignore) {
+
+                    }
                 }
             }
         } catch (NoSuchFileException e) {
+            System.out.println("No Such File or Directory : " + homePath + delim + GAME_DIR + delim + SAVE_FILE);
             this.saveHighScore(0);
             this.loadHighScore();
         } catch (IOException e) {
