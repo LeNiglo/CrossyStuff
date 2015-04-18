@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Game extends BasicGame {
 
-    private static final Integer TOMOVE = 3;
+    private static final Integer TOMOVE = 6;
     private static final String GAME_DIR = "CrossyStuff";
     private static final String SAVE_FILE = "highscore.dat";
     protected CrossyMap map;
@@ -23,6 +23,8 @@ public class Game extends BasicGame {
     protected Input keymap;
     private Integer moving;
     private Integer highscore = -1;
+    private long runningTime = 0;
+
 
     public Game(String title) {
         super(title);
@@ -42,34 +44,42 @@ public class Game extends BasicGame {
         this.character = new CrossyChar();
         this.keymap = gameContainer.getInput();
         this.keymap.enableKeyRepeat();
-        gameContainer.setVSync(true);
+        // gameContainer.setVSync(true);
         this.moving = 0;
         this.loadHighScore();
     }
 
     @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
-        if (this.keymap.isKeyPressed(Input.KEY_ESCAPE)) {
-            gameContainer.exit();
-        }
-        if (this.keymap.isKeyDown(Input.KEY_DOWN) && this.moving == 0) {
-            this.map.generateNewLine();
-            this.character.setWalk(true);
-            this.moving = 90;
-        }
-        if (this.moving != 0) {
-            if (this.moving.equals(TOMOVE)) {
-                this.character.setWalk(false);
-                this.map.removeFirst();
+    public void update(GameContainer gameContainer, int delta) throws SlickException {
+        this.runningTime += delta;
+
+        if (this.runningTime > 30) {
+
+            this.map.moveItems();
+
+            if (this.keymap.isKeyPressed(Input.KEY_ESCAPE)) {
+                gameContainer.exit();
             }
-            this.map.move(TOMOVE);
-            this.moving -= TOMOVE;
-        }
-        if (this.map.checkColide(this.character)) {
-            if (this.character.getScore() > this.getHighScore())
-                this.saveHighScore(this.character.getScore());
-            System.out.println("YOU DIED !\nScore : " + this.character.getScore() + "\nBest : " + this.getHighScore());
-            gameContainer.exit();
+            if (this.keymap.isKeyDown(Input.KEY_DOWN) && this.moving == 0) {
+                this.map.generateNewLine();
+                this.character.setWalk(true);
+                this.moving = 90;
+            }
+            if (this.moving != 0) {
+                if (this.moving.equals(TOMOVE)) {
+                    this.character.setWalk(false);
+                    this.map.removeFirst();
+                }
+                this.map.move(TOMOVE);
+                this.moving -= TOMOVE;
+            }
+            if (this.map.checkColide(this.character)) {
+                if (this.character.getScore() > this.getHighScore())
+                    this.saveHighScore(this.character.getScore());
+                System.out.println("YOU DIED !\nScore : " + this.character.getScore() + "\nBest : " + this.getHighScore());
+                gameContainer.exit();
+            }
+            this.runningTime = 0;
         }
     }
 

@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class CrossyLine {
 
-    private final static Integer MIN_FREQ = 50;
+    private final static Integer MIN_FREQ = 150;
     protected List<CrossyItem> items;
     protected Random rand;
     private Integer _speed;
@@ -26,7 +26,7 @@ public class CrossyLine {
         this._y = posY;
         this.rand = random;
         this.FREQ = freq;
-        this.SPEED = speed;
+        this.SPEED = 3*speed;
         this.counter = 0;
         this._reverse = this.rand.nextBoolean();
         this.nextItem = this.rand.nextInt(this.FREQ) + MIN_FREQ;

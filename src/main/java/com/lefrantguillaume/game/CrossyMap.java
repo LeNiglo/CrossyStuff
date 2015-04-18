@@ -38,6 +38,14 @@ public class CrossyMap {
         }
     }
 
+    public void moveItems() {
+        for (CrossyLine line : this.lines) {
+            for(CrossyItem item: line.getItems()) {
+                item.move();
+            }
+        }
+    }
+
     public void harder() {
         if (FREQ > 150)
             FREQ -= 3;

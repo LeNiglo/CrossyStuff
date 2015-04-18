@@ -24,7 +24,7 @@ public class CrossyItem {
         }
         if (type == CrossyLine.e_type.ROAD) {
             try {
-                Image[] back = {new Image("/media/img/items/car"+(1+random.nextInt(NBCARS))+".png")};
+                Image[] back = {new Image("/media/img/items/car" + (1 + random.nextInt(NBCARS)) + ".png")};
                 int[] duration = {200};
                 this.item = new Animation(back, duration, true);
             } catch (SlickException e) {
@@ -37,9 +37,15 @@ public class CrossyItem {
     public void aff(Integer y) {
         if (this._reverse) {
             this.item.getCurrentFrame().getFlippedCopy(true, false).draw(this._x, y, 90, 90);
-            this._x += this._speed / 10;
         } else {
             this.item.getCurrentFrame().getFlippedCopy(false, false).draw(this._x, y, 90, 90);
+        }
+    }
+
+    public void move() {
+        if (this._reverse) {
+            this._x += this._speed / 10;
+        } else {
             this._x -= this._speed / 10;
         }
     }
